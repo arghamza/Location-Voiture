@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CarRentinglatest.Models.voiture>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-dark">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.date_mec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.carburant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prix_loc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.categorie1.title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modele1.marque)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_mec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.carburant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prix_loc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.categorie1.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modele1.marque)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.immatriculation }) |
+            @Html.ActionLink("Details", "Details", new { id=item.immatriculation }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.immatriculation })
+        </td>
+    </tr>
+}
+
+</table>

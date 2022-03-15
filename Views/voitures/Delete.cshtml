@@ -1,0 +1,72 @@
+﻿@model CarRentinglatest.Models.voiture
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2  style="color:antiquewhite" >Delete</h2>
+
+<h3  style="color:antiquewhite" >Are you sure you want to delete this?</h3>
+<div style="color:antiquewhite">
+    <h4>voiture</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date_mec)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_mec)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.carburant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.carburant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.prix_loc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.prix_loc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.image)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.categorie1.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categorie1.title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modele1.marque)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modele1.marque)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default btn-dark" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

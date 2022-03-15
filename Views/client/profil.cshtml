@@ -1,0 +1,79 @@
+﻿@model CarRentinglatest.Models.User
+
+@{
+    ViewBag.Title = "profil";
+}
+
+
+
+<style>
+    .card {
+        width: 350px;
+        background-color: #efefef;
+        color: black ; 
+        border: none;
+        cursor: pointer;
+        transition: all 0.5s
+    }
+
+    .image img {
+        transition: all 0.5s
+    }
+   
+    .card:hover .image img {
+        transform: scale(1.5)
+    }
+
+
+    .name {
+        font-size: 22px;
+        font-weight: bold
+    }
+
+    
+
+
+  
+
+    .text span {
+        font-size: 13px;
+        color: #545454;
+        font-weight: 500
+    }
+
+    .icons i {
+        font-size: 19px
+    }
+
+    hr .new1 {
+        border: 1px solid
+    }
+
+    .join {
+        font-size: 14px;
+        color: #a0a0a0;
+        font-weight: bold
+    }
+
+    .date {
+        background-color: #ccc
+    }
+</style>
+<div class="container  d-flex justify-content-center">
+    <div class="card p-4">
+        <div class=" image d-flex flex-column justify-content-center align-items-center">
+            <button class="btn btn-success"> <img src="https://www.freeiconspng.com/uploads/bus-driver-icon-png-16.png" height="100" width="100" /></button> <span class="name mt-3">@Model.FirstName @Model.LastName</span> <span>@Model.Email</span>
+            -
+            @using (Html.BeginForm())
+            {
+                <input type="hidden" name="id" value=@Model.ID>
+                <label>First Name : </label> <input type="text" name="first_name"  class="form-control" value=@Model.FirstName placeholder=@Model.FirstName>
+                <label>Last Name : </label> <input type="text" name="last_name"   class="form-control" value=@Model.LastName placeholder=@Model.LastName>
+                <label>Gender : </label> <input type="text" name="gender"  class="form-control" value=@Model.Gender placeholder=@Model.Gender>
+               
+               <label>password : </label> <input type="text" name="password"   class="form-control" value=@Model.Password placeholder=@Model.Password required>
+          <br />  <button type="submit"  class="btn btn-danger">confimer</button>
+            }
+        </div>
+    </div>
+</div>

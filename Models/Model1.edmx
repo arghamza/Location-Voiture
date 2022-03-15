@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categorie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="location">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="voiture" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="date_debut" Type="date" />
+          <Property Name="date_fin" Type="date" />
+        </EntityType>
+        <EntityType Name="modele">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marque" Type="varchar" MaxLength="50" />
+          <Property Name="serie" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="voiture">
+          <Key>
+            <PropertyRef Name="immatriculation" />
+          </Key>
+          <Property Name="immatriculation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="modele" Type="int" />
+          <Property Name="categorie" Type="int" />
+          <Property Name="date_mec" Type="date" />
+          <Property Name="carburant" Type="varchar" MaxLength="50" />
+          <Property Name="prix_loc" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="image" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <Association Name="fk_categorie">
+          <End Role="categorie" Type="Self.categorie" Multiplicity="0..1" />
+          <End Role="voiture" Type="Self.voiture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voiture">
+              <PropertyRef Name="categorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_modele">
+          <End Role="modele" Type="Self.modele" Multiplicity="0..1" />
+          <End Role="voiture" Type="Self.voiture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modele">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voiture">
+              <PropertyRef Name="modele" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="location" Type="Self.location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="location">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voiture">
+          <End Role="voiture" Type="Self.voiture" Multiplicity="1" />
+          <End Role="location" Type="Self.location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="voiture">
+              <PropertyRef Name="immatriculation" />
+            </Principal>
+            <Dependent Role="location">
+              <PropertyRef Name="voiture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_EnrollDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Gender" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+          <Parameter Name="status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetEnrollmentDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="CarsDBModelStoreContainer">
+          <EntitySet Name="categorie" EntityType="Self.categorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="location" EntityType="Self.location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="modele" EntityType="Self.modele" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="voiture" EntityType="Self.voiture" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_categorie" Association="Self.fk_categorie">
+            <End Role="categorie" EntitySet="categorie" />
+            <End Role="voiture" EntitySet="voiture" />
+          </AssociationSet>
+          <AssociationSet Name="fk_modele" Association="Self.fk_modele">
+            <End Role="modele" EntitySet="modele" />
+            <End Role="voiture" EntitySet="voiture" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user" Association="Self.fk_user">
+            <End Role="User" EntitySet="User" />
+            <End Role="location" EntitySet="location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voiture" Association="Self.fk_voiture">
+            <End Role="voiture" EntitySet="voiture" />
+            <End Role="location" EntitySet="location" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="categorie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="voiture" Relationship="Self.fk_categorie" FromRole="categorie" ToRole="voiture" />
+        </EntityType>
+        <EntityType Name="location">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="Int32" Nullable="false" />
+          <Property Name="voiture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date_debut" Type="DateTime" Precision="0" />
+          <Property Name="date_fin" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="User" Relationship="Self.fk_user" FromRole="location" ToRole="User" />
+          <NavigationProperty Name="voiture1" Relationship="Self.fk_voiture" FromRole="location" ToRole="voiture" />
+        </EntityType>
+        <EntityType Name="modele">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="voiture" Relationship="Self.fk_modele" FromRole="modele" ToRole="voiture" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="location" Relationship="Self.fk_user" FromRole="User" ToRole="location" />
+        </EntityType>
+        <EntityType Name="voiture">
+          <Key>
+            <PropertyRef Name="immatriculation" />
+          </Key>
+          <Property Name="immatriculation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="modele" Type="Int32" />
+          <Property Name="categorie" Type="Int32" />
+          <Property Name="date_mec" Type="DateTime" Precision="0" />
+          <Property Name="carburant" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="prix_loc" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="image" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="categorie1" Relationship="Self.fk_categorie" FromRole="voiture" ToRole="categorie" />
+          <NavigationProperty Name="location" Relationship="Self.fk_voiture" FromRole="voiture" ToRole="location" />
+          <NavigationProperty Name="modele1" Relationship="Self.fk_modele" FromRole="voiture" ToRole="modele" />
+        </EntityType>
+        <Association Name="fk_categorie">
+          <End Role="categorie" Type="Self.categorie" Multiplicity="0..1" />
+          <End Role="voiture" Type="Self.voiture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voiture">
+              <PropertyRef Name="categorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="location" Type="Self.location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="location">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voiture">
+          <End Role="voiture" Type="Self.voiture" Multiplicity="1" />
+          <End Role="location" Type="Self.location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="voiture">
+              <PropertyRef Name="immatriculation" />
+            </Principal>
+            <Dependent Role="location">
+              <PropertyRef Name="voiture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_modele">
+          <End Role="modele" Type="Self.modele" Multiplicity="0..1" />
+          <End Role="voiture" Type="Self.voiture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modele">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voiture">
+              <PropertyRef Name="modele" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarsDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categorie" EntityType="Self.categorie" />
+          <EntitySet Name="location" EntityType="Self.location" />
+          <EntitySet Name="modele" EntityType="Self.modele" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="voiture" EntityType="Self.voiture" />
+          <AssociationSet Name="fk_categorie" Association="Self.fk_categorie">
+            <End Role="categorie" EntitySet="categorie" />
+            <End Role="voiture" EntitySet="voiture" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user" Association="Self.fk_user">
+            <End Role="User" EntitySet="User" />
+            <End Role="location" EntitySet="location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voiture" Association="Self.fk_voiture">
+            <End Role="voiture" EntitySet="voiture" />
+            <End Role="location" EntitySet="location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_modele" Association="Self.fk_modele">
+            <End Role="modele" EntitySet="modele" />
+            <End Role="voiture" EntitySet="voiture" />
+          </AssociationSet>
+          <FunctionImport Name="SP_EnrollDetail">
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetEnrollmentDetails" ReturnType="Collection(CarsDBModel.sp_GetEnrollmentDetails_Result)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetEnrollmentDetails_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Gender" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarsDBModelStoreContainer" CdmEntityContainer="CarsDBEntities">
+          <EntitySetMapping Name="categorie">
+            <EntityTypeMapping TypeName="CarsDBModel.categorie">
+              <MappingFragment StoreEntitySet="categorie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="location">
+            <EntityTypeMapping TypeName="CarsDBModel.location">
+              <MappingFragment StoreEntitySet="location">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="voiture" ColumnName="voiture" />
+                <ScalarProperty Name="date_debut" ColumnName="date_debut" />
+                <ScalarProperty Name="date_fin" ColumnName="date_fin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="modele">
+            <EntityTypeMapping TypeName="CarsDBModel.modele">
+              <MappingFragment StoreEntitySet="modele">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="marque" ColumnName="marque" />
+                <ScalarProperty Name="serie" ColumnName="serie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="CarsDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="voiture">
+            <EntityTypeMapping TypeName="CarsDBModel.voiture">
+              <MappingFragment StoreEntitySet="voiture">
+                <ScalarProperty Name="immatriculation" ColumnName="immatriculation" />
+                <ScalarProperty Name="modele" ColumnName="modele" />
+                <ScalarProperty Name="categorie" ColumnName="categorie" />
+                <ScalarProperty Name="date_mec" ColumnName="date_mec" />
+                <ScalarProperty Name="carburant" ColumnName="carburant" />
+                <ScalarProperty Name="prix_loc" ColumnName="prix_loc" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_EnrollDetail" FunctionName="CarsDBModel.Store.SP_EnrollDetail" />
+          <FunctionImportMapping FunctionImportName="sp_GetEnrollmentDetails" FunctionName="CarsDBModel.Store.sp_GetEnrollmentDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarsDBModel.sp_GetEnrollmentDetails_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<CarRentinglatest.Models.location>
+
+@{
+    ViewBag.Title = "locations";
+}
+
+
+
+<h3  style="text-decoration:underline">Non terminées : </h3>
+<table class=" table table-dark">
+    <th>date debut </th>
+    <th>date fin </th>
+    <th>marque </th>
+    <th>serie </th>
+    <th>categorie </th>
+    <th>DH/Jour </th>
+    <th>jours</th>
+    <th>total </th>
+    @foreach (var item in Model)
+    {
+
+
+        if (item.date_fin > DateTime.Now)
+        {
+
+            <tr>
+                <td> @item.date_debut </td>
+                <td>@item.date_fin</td>
+                <td> @item.voiture1.modele1.marque</td>
+                <td> @item.voiture1.modele1.serie</td>
+                <td> @item.voiture1.categorie1.title</td>
+                <td> @item.voiture1.prix_loc</td>
+                @{
+                    double duree = ((item.date_fin - item.date_debut).Value.TotalDays);
+                    double total = ((double)item.voiture1.prix_loc.Value) * duree;
+                }
+                <td> @duree </td>
+                <td>@total </td>
+            </tr>
+
+        }
+
+    }
+</table>
+<h3 style="text-decoration:underline" > Historique : </h3>
+<table class=" table table-dark">
+    <th>date debut </th>
+    <th>date fin </th>
+    <th>marque </th>
+    <th>serie </th>
+    <th>categorie </th>
+    <th>DH/Jour </th>
+    <th>jours</th>
+    <th>total </th>
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            @if (item.date_fin < DateTime.Now)
+            {
+                <td>@item.date_debut</td>
+                <td>@item.date_fin</td>
+                <h5> @item.voiture1.modele1.marque</h5>
+                <td> @item.voiture1.modele1.serie</td>
+                <td> @item.voiture1.categorie1.title</td>
+                <td> @item.voiture1.prix_loc</td>
+
+                double duree = ((item.date_fin - item.date_debut).Value.TotalDays);
+                double total = ((double)item.voiture1.prix_loc.Value) * duree;
+
+                <td> @duree </td>
+                <td>total :@total </td>
+            }
+        </tr>
+    }
+</table>
+

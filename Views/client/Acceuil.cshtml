@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CarRentinglatest.Models.voiture>
+
+@{
+    ViewBag.Title = "Acceuil";
+}
+@if (@Session["Email"]==null)
+{ 
+<h2 style="color: white">Welcome stranger </h2>
+
+}
+
+
+
+<div class="container-fluid d-flex justify-content-center bg-dark">
+    <div class="row mt-5 ">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-4 mb-4 ">
+                <div class="card " style="color: black" >
+                    @{ 
+                        string url = "/images/" + @item.image; 
+                    }
+                    <img src=@url class="card-img-top" height="300px" width="100%">
+                    <div class="card-body pt-0 px-0">
+                        <div class="d-flex flex-row justify-content-between px-3 pb-4">
+                            
+                                <div class="d-flex flex-column"><span class="text-muted">Prix de location</span></div>
+                                <div class="d-flex flex-column">
+                                    <h5 class="mb-0">@item.prix_loc DH/Jour</h5>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-between px-3 pb-4">
+                                <div class="d-flex flex-column"><span class="text-muted">Marque</span></div>
+                                <div class="d-flex flex-column">
+                                    <h5 class="mb-0">@item.modele1.marque</h5>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between px-3 pb-4">
+                                <div class="d-flex flex-column"><span class="text-muted">Serie</span></div>
+                                <div class="d-flex flex-column">
+                                    <h5 class="mb-0">@item.modele1.serie</h5>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between p-3 mid">
+                                <div class="d-flex flex-column">
+                                    <small class="text-muted mb-1">Catégorie</small>
+                                    <div class="d-flex flex-row">
+                                        <i class="fas fa-car" style="width: 25px;"></i>
+                                        <div class="d-flex flex-column ml-1"><small class="ghj">&nbsp;@item.categorie1.title</small></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <small class="text-muted mb-2">Carburant</small>
+                                    <div class="d-flex flex-row">
+                                        <i class="fas fa-gas-pump" width="35px" height="40px"></i>
+
+                                        <h6 class="ml-1">   @item.carburant </h6>
+                                    </div>
+                                </div>
+                                <div class="mx-3 mt-3 mb-2">
+                                    <button type="button" class="btn btn-success btn-block">
+                                        @if (Session["Email"] == null)
+                                        {
+                                            <script>
+                                                function Connect() {
+
+                                                    alert("Veuillez vous connectez ")
+                                                }
+
+                                            </script>
+                                            @Html.ActionLink("Louer", "Index", "User", null, new { @style = "text-decoration:none;color:white", onclick = "Connect();" });
+                                        }
+                                        else
+                                        { @Html.ActionLink("Louer", "paiement", "Client", new { id = item.immatriculation }, new { @style = "text-decoration:none;color:white" })}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
